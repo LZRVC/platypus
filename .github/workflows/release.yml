@@ -35,7 +35,10 @@ jobs:
       - run: npm ci
       
       - name: Clone Qiskit/textbook repo
-        run: ssh-add - <<< "${{ secrets.TEXTBOOK_REPO_CLONE_KEY }}" && git submodule update --init --recursive
+        run: |
+          eval `ssh-agent -s`
+          ssh-add - <<< "${{ secrets.TEXTBOOK_REPO_CLONE_KEY }}"
+          git submodule update --init --recursive
 
       - name: Install Python 3.8
         uses: actions/setup-python@v2
