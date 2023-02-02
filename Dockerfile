@@ -19,6 +19,9 @@ COPY package*.json ./
 COPY patches patches/
 RUN npm ci
 
+RUN ssh-add - <<< "${TEXTBOOK_REPO_CLONE_KEY}"
+RUN git submodule update --init --recursive
+
 COPY converter converter/
 COPY frontend frontend/
 COPY server server/
